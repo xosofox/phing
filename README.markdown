@@ -4,11 +4,12 @@ Phing and Propel Clone
 What is it?
 -----------
 
-There are 3 repos:
+There are 4 repos:
 
 1. https://github.com/Xosofox/propel
 2. https://github.com/Xosofox/propel1.6
-3. and https://github.com/Xosofox/phing
+3. https://github.com/Xosofox/phing
+4. https://github.com/Xosofox/propelVendor
 
 They are all copies/clones of the official propel and phing SVN repositories.
 * http://svn.propelorm.org/branches/
