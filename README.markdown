@@ -6,9 +6,9 @@ What is it?
 
 There are 3 repos:
 
-1. https://github.com/KaroDidi/propel
-2. https://github.com/KaroDidi/propel1.6
-3. and https://github.com/KaroDidi/phing
+1. https://github.com/Xosofox/propel
+2. https://github.com/Xosofox/propel1.6
+3. and https://github.com/Xosofox/phing
 
 They are all copies/clones of the official propel and phing SVN repositories.
 * http://svn.propelorm.org/branches/
@@ -41,5 +41,5 @@ Any you are including it as a git submodule.
 
 Since the bundle depends on phing and propel, you might want to include
 
-    > git submodule add https://github.com/KaroDidi/phing vendor/phing
-    > git submodule add https://github.com/KaroDidi/propel1.6 vendor/propel
+    > git submodule add https://github.com/Xosofox/phing vendor/phing
+    > git submodule add https://github.com/Xosofox/propel1.6 vendor/propel
