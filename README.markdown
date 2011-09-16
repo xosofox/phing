@@ -24,7 +24,7 @@ In "propel", there are branches 1.1 to 1.6, so you need to/can select your desir
 Which version is "phing"?
 -------------------------
 
-The phing repo is currently using the version 2.4.7.1 (http://svn.phing.info/tags/2.4.7.1/)
+The phing repo is currently using the version 2.4.6 (http://svn.phing.info/tags/2.4.6/)
 
 Why at all?
 -----------

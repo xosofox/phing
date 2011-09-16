@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PMDPHPCPDResultFormatter.php 1281 2011-08-18 19:23:20Z mrook $
+ * $Id: PMDPHPCPDResultFormatter.php 728 2010-02-13 23:21:51Z bschultz $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@ require_once 'phing/tasks/ext/phpcpd/formatter/PHPCPDResultFormatter.php';
  *
  * @package phing.tasks.ext.phpcpd.formatter
  * @author  Benjamin Schultz <bschultz@proqrent.de>
- * @version $Id: PMDPHPCPDResultFormatter.php 1281 2011-08-18 19:23:20Z mrook $
+ * @version $Id: PMDPHPCPDResultFormatter.php 728 2010-02-13 23:21:51Z bschultz $
  */
 class PMDPHPCPDResultFormatter extends PHPCPDResultFormatter
 {
@@ -35,17 +35,10 @@ class PMDPHPCPDResultFormatter extends PHPCPDResultFormatter
      * Processes a list of clones.
      *
      * @param PHPCPD_CloneMap $clones
-     * @param Project $project
-     * @param boolean $useFile
-     * @param PhingFile|null $outfile
      */
-    public function processClones(PHPCPD_CloneMap $clones, Project $project, $useFile = false, $outFile = null)
+    public function processClones(PHPCPD_CloneMap $clones, PhingFile $outfile, Project $project)
     {
-        if (!$useFile || empty($outFile)) {
-            throw new BuildException("Output filename required for this formatter");
-        }
-        
-    	$logger = new PHPCPD_Log_XML_PMD($outFile);
+    	$logger = new PHPCPD_Log_XML_PMD($outfile);
     	$logger->processClones($clones);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: MkdirTask.php 1248 2011-08-04 08:29:33Z mrook $
+ *  $Id: MkdirTask.php 1153 2011-06-15 19:23:09Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@ include_once 'phing/system/io/PhingFile.php';
  * Task to create a directory.
  *
  * @author   Andreas Aderhold, andi@binarycloud.com
- * @version  $Revision: 1248 $
+ * @version  $Revision: 1153 $
  * @package  phing.tasks.system
  */
 class MkdirTask extends Task {
@@ -73,7 +73,7 @@ class MkdirTask extends Task {
      */
     function setMode($mode)
     {
-        $this->mode = base_convert((int) $mode, 8, 10);
+        $this->mode = $mode;
     }
 
 }

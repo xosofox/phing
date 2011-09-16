@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PhpLintTask.php 1226 2011-07-25 14:50:58Z mrook $
+ *  $Id: PhpLintTask.php 1175 2011-06-21 14:49:11Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@ require_once 'phing/system/io/FileWriter.php';
  *
  * @author   Knut Urdalen <knut.urdalen@telio.no>
  * @author   Stefan Priebsch <stefan.priebsch@e-novative.de>
- * @version  $Id: PhpLintTask.php 1226 2011-07-25 14:50:58Z mrook $
+ * @version  $Id: PhpLintTask.php 1175 2011-06-21 14:49:11Z mrook $
  * @package  phing.tasks.ext
  */
 class PhpLintTask extends Task {
@@ -191,10 +191,6 @@ class PhpLintTask extends Task {
                 }
             }
             $this->project->setProperty($this->errorProperty, $message);
-        }
-        
-        if (!empty($this->cache)) {
-            $this->cache->commit();
         }
         
         if ($this->haltOnFailure && $this->hasErrors) throw new BuildException('Syntax error(s) in PHP files: '.implode(', ',$this->badFiles));

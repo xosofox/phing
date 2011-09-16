@@ -29,10 +29,8 @@
   Mike Wittje <mw@mike.wittje.de>
   Benjamin Schultz <bschultz@proqrent.de>
   Andrei Serdeliuc <andrei@serdeliuc.ro>
-  Victor Farazdagi
   Christian Weiske
   Matthias Pigulla
-  Lineke Kerckhoffs-Willems <lineke@phpassionate.com>
 
   If you've done work on Phing and you are not listed here, please feel free
   to add yourself.
@@ -67,4 +65,4 @@
   (c) Josh Barger <joshb@npt.com>
   http://phpclasses.upperdesign.com/browse.html/package/529.html
 
-  --$Id: CREDITS 1235 2011-07-26 08:36:21Z mrook $
+  --$Id: CREDITS 1200 2011-07-01 12:09:46Z mrook $

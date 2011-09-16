@@ -1,7 +1,6 @@
 <?php
-
 /*
- *  $Id: MkdirTaskModeTest.php 1248 2011-08-04 08:29:33Z mrook $
+ *  $Id: PearPackageTest.php 1168 2011-06-19 21:25:54Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,26 +22,31 @@
 require_once 'phing/BuildFileTest.php';
 
 /**
- * Regression test for ticket http://www.phing.info/trac/ticket/745
- * - MkdirTask mode param mistake
+ * Test cases for the pearpkg/pearpkg2 tasks
  *
- * @package phing.regression
+ * @author  Michiel Rook <mrook@php.net>
+ * @version $Id: PearPackageTest.php 1168 2011-06-19 21:25:54Z mrook $
+ * @package phing.tasks.system
  */
-class MkdirTaskModeTest extends BuildFileTest { 
+class PearPackageTest extends BuildFileTest { 
+    private $savedErrorLevel;
         
     public function setUp() { 
-        $this->configureProject(PHING_TEST_BASE . "/etc/regression/745/build.xml");
+        $this->savedErrorLevel = error_reporting();
+        error_reporting(E_ERROR);
+        $buildFile = PHING_TEST_BASE . "/etc/tasks/pearpackage.xml";
+        $this->configureProject($buildFile);
+    }
+    
+    public function tearDown()
+    {
+        error_reporting($this->savedErrorLevel);
+        unlink(PHING_TEST_BASE . '/etc/tasks/package.xml');
     }
 
-    public function testCorrectModeSet () {
-        $this->executeTarget("test");
-        
-        $dir = new PhingFile(PHING_TEST_BASE . "/etc/regression/745/testdir");
-        
-        $mode = $dir->getMode() & 511;
-        
-        $this->assertEquals($mode, 511);
-        
-        $dir->delete(true);
+    public function testRoleSet () {      
+        $this->executeTarget("main");
+        $content = file_get_contents(PHING_TEST_BASE . '/etc/tasks/package.xml');
+        $this->assertTrue(strpos($content, '<file role="script" baseinstalldir="phing" name="pear-phing.bat"/>') !== false);
     }
 }

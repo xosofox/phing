@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: DocBloxTask.php 1269 2011-08-13 17:02:00Z mrook $
+ *  $Id: DocBloxTask.php 1155 2011-06-16 14:59:29Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@ require_once 'phing/system/io/FileOutputStream.php';
  * DocBlox Task (http://www.docblox-project.org)
  *
  * @author    Michiel Rook <mrook@php.net>
- * @version   $Revision: 1269 $
+ * @version   $Revision: 1155 $
  * @since     2.4.6
  * @package   phing.tasks.ext.docblox
  */
@@ -111,49 +111,22 @@ class DocBloxTask extends Task
         $docbloxPath = null;
         
         foreach (explode(PATH_SEPARATOR, get_include_path()) as $path) {
-            $testDocBloxPath = $path . DIRECTORY_SEPARATOR . 'DocBlox' . DIRECTORY_SEPARATOR . 'src';
-            $testMarkdownPath = $path . DIRECTORY_SEPARATOR . 'markdown.php';
-
-            if (file_exists($testDocBloxPath)) {
-                $docbloxPath = $testDocBloxPath;
-            }
-
-            if (file_exists($testMarkdownPath)) {
-                $markdownPath = $testMarkdownPath;
+            $testpath = $path . DIRECTORY_SEPARATOR . 'DocBlox' . DIRECTORY_SEPARATOR . 'src';
+            if (file_exists($testpath)) {
+                $docbloxPath = $testpath;
+                break;
             }
         }
-
         if (empty($docbloxPath)) {
             throw new BuildException("Please make sure DocBlox is installed and on the include_path.", $this->getLocation());
         }
-
-        if (empty($markdownPath)) {
-            throw new BuildException("Please make sure Markdown Extra is installed and on the include_path.", $this->getLocation());
-        }
+        
+        require_once 'Zend/Loader/Autoloader.php';
         
         set_include_path($docbloxPath . PATH_SEPARATOR . get_include_path());
         
-        if (file_exists($docbloxPath.'/ZendX/Loader/StandardAutoloader.php')) {
-            require_once $docbloxPath.'/ZendX/Loader/StandardAutoloader.php';
-            
-            $autoloader = new ZendX_Loader_StandardAutoloader(
-                array(
-                    'prefixes' => array(
-                        'Zend'    => $docbloxPath.'/Zend',
-                        'DocBlox' => $docbloxPath.'/DocBlox'
-                    ),
-                    'fallback_autoloader' => true 
-                )
-            );
-            $autoloader->register();
-        } else {
-            require_once 'Zend/Loader/Autoloader.php';
-        
-            $autoloader = Zend_Loader_Autoloader::getInstance();
-            $autoloader->registerNamespace('DocBlox_');
-        }
-
-        require_once $markdownPath;
+        $autoloader = Zend_Loader_Autoloader::getInstance();
+        $autoloader->registerNamespace('DocBlox_');
     }
     
     /**
@@ -205,11 +178,11 @@ class DocBloxTask extends Task
         
         $xml = $this->parseFiles();
         
-        $this->log("Transforming...", Project::MSG_VERBOSE);
-        
         $transformer = new DocBlox_Transformer();
+        
         $transformer->setSource($xml);
         $transformer->setTarget($this->destDir);
+        
         $transformer->execute();
     }
 }

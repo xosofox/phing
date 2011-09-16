@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PDOSQLExecTask.php 1274 2011-08-17 13:38:07Z mrook $
+ *  $Id: PDOSQLExecTask.php 1084 2011-05-06 09:55:25Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -50,7 +50,7 @@ include_once 'phing/tasks/ext/pdo/PDOSQLExecFormatterElement.php';
  * @author    Michael McCallum <gholam@xtra.co.nz> (Ant)
  * @author    Tim Stephenson <tim.stephenson@sybase.com> (Ant)
  * @package   phing.tasks.ext.pdo
- * @version   $Revision: 1274 $
+ * @version   $Revision: 1084 $
  */
 class PDOSQLExecTask extends PDOTask {
 
@@ -214,16 +214,6 @@ class PDOSQLExecTask extends PDOTask {
     public function setDelimiter($delimiter)
     {
         $this->delimiter = $delimiter;
-    }
-
-   /**
-    * Get the statement delimiter.
-    *
-    * @return string
-    */
-    public function getDelimiter()
-    {
-        return $this->delimiter;
     }
 
     /**
@@ -408,21 +398,85 @@ class PDOSQLExecTask extends PDOTask {
      * @throws PDOException, IOException 
      */
     public function runStatements(Reader $reader) {
+        $sql = "";
+        $line = "";
+        $sqlBacklog = "";
+        $hasQuery = false;
 
-        if (self::DELIM_NORMAL == $this->delimiterType && 0 === strpos($this->getUrl(), 'pgsql:')) {
-            require_once 'phing/tasks/ext/pdo/PgsqlPDOQuerySplitter.php';
-            $splitter = new PgsqlPDOQuerySplitter($this, $reader);
-        } else {
-            require_once 'phing/tasks/ext/pdo/DefaultPDOQuerySplitter.php';
-            $splitter = new DefaultPDOQuerySplitter($this, $reader, $this->delimiterType);
-        }
+        $in = new BufferedReader($reader);
 
         try {
-            while (null !== ($query = $splitter->nextQuery())) {
-                $this->log("SQL: " . $query, Project::MSG_VERBOSE);
-                $this->execSQL($query);
+            while (($line = $in->readLine()) !== null) {
+                $line = trim($line);
+                $line = ProjectConfigurator::replaceProperties($this->project, $line,
+                        $this->project->getProperties());
+
+                if (($line != $this->delimiter) && (
+                    StringHelper::startsWith("//", $line) ||
+                    StringHelper::startsWith("--", $line) ||
+                    StringHelper::startsWith("#", $line))) {
+                    continue;
+                }
+
+                if (strlen($line) > 4
+                        && strtoupper(substr($line,0, 4)) == "REM ") {
+                    continue;
+                }
+
+                // MySQL supports defining new delimiters
+                if (preg_match('/DELIMITER [\'"]?([^\'" $]+)[\'"]?/i', $line, $matches)) {
+                    $this->setDelimiter($matches[1]);
+                    continue;
+                }
+
+                if ($sqlBacklog !== "") {
+                    $sql = $sqlBacklog;
+                    $sqlBacklog = "";
+                }
+
+                $sql .= " " . $line . "\n";
+
+                // SQL defines "--" as a comment to EOL
+                // and in Oracle it may contain a hint
+                // so we cannot just remove it, instead we must end it
+                if (strpos($line, "--") !== false) {
+                    $sql .= "\n";
+                }
+
+                // DELIM_ROW doesn't need this (as far as i can tell)
+                if ($this->delimiterType == self::DELIM_NORMAL) {
+
+                    $reg = "#((?:\"(?:\\\\.|[^\"])*\"?)+|'(?:\\\\.|[^'])*'?|" . preg_quote($this->delimiter) . ")#";
+
+                    $sqlParts = preg_split($reg, $sql, 0, PREG_SPLIT_DELIM_CAPTURE);
+                    $sqlBacklog = "";
+                    foreach ($sqlParts as $sqlPart) {
+                        // we always want to append, even if it's a delim (which will be stripped off later)
+                        $sqlBacklog .= $sqlPart;
+
+                        // we found a single (not enclosed by ' or ") delimiter, so we can use all stuff before the delim as the actual query
+                        if ($sqlPart === $this->delimiter) {
+                            $sql = $sqlBacklog;
+                            $sqlBacklog = "";
+                            $hasQuery = true;
+                        }
+                    }
+                }
+
+                if ($hasQuery || ($this->delimiterType == self::DELIM_ROW && $line == $this->delimiter)) {
+                    // this assumes there is always a delimter on the end of the SQL statement.
+                    $sql = StringHelper::substring($sql, 0, strlen($sql) - 1 - strlen($this->delimiter));
+                    $this->log("SQL: " . $sql, Project::MSG_VERBOSE);
+                    $this->execSQL($sql);
+                    $sql = "";
+                    $hasQuery = false;
+                }
             }
 
+            // Catch any statements not followed by ;
+            if ($sql !== "") {
+                $this->execSQL($sql);
+            }
         } catch (PDOException $e) {
             throw $e;
         }

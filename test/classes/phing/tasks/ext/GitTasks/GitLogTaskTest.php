@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: GitLogTaskTest.php 1236 2011-07-28 09:22:36Z mrook $
+ *  $Id: GitLogTaskTest.php 1212 2011-07-09 19:00:58Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,7 +25,7 @@ require_once dirname(__FILE__) . '/GitTestsHelper.php';
 
 /**
  * @author Victor Farazdagi <simple.square@gmail.com>
- * @version $Id: GitLogTaskTest.php 1236 2011-07-28 09:22:36Z mrook $
+ * @version $Id: GitLogTaskTest.php 1212 2011-07-09 19:00:58Z mrook $
  * @package phing.tasks.ext
  */
 class GitLogTaskTest extends BuildFileTest { 
@@ -168,12 +168,8 @@ class GitLogTaskTest extends BuildFileTest {
         $this->assertInLogs("D\tfile3");
     }
 
-    /**
-     * @todo Need to implement the Git relative date calculation
-     */
     public function testGitDateRelative()
     {
-        $this->markTestSkipped('Need to implement the Git relative date calculation');
         $this->executeTarget('gitLogDateRelative');
         foreach($this->testCommits as $commit) {
             $timestamp = strtotime($commit['date']);

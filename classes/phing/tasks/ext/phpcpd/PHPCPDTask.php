@@ -1,6 +1,6 @@
 <?php
 /**
- *  $Id: PHPCPDTask.php 1281 2011-08-18 19:23:20Z mrook $
+ *  $Id: PHPCPDTask.php 784 2010-05-19 09:03:49Z bschultz $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@ require_once 'phing/Task.php';
  *
  * @package phing.tasks.ext.phpcpd
  * @author  Benjamin Schultz <bschultz@proqrent.de>
- * @version $Id: PHPCPDTask.php 1281 2011-08-18 19:23:20Z mrook $
+ * @version $Id: PHPCPDTask.php 784 2010-05-19 09:03:49Z bschultz $
  */
 class PHPCPDTask extends Task
 {
@@ -252,7 +252,7 @@ class PHPCPDTask extends Task
         if (count($this->_formatters) == 0) {
             // turn legacy format attribute into formatter
             $fmt = new PHPCPDFormatterElement($this);
-            $fmt->setType($this->_format);
+            $fmt->setType($this->format);
             $fmt->setUseFile(false);
             $this->_formatters[] = $fmt;
         }
@@ -291,10 +291,9 @@ class PHPCPDTask extends Task
             $formatter = $fe->getFormatter();
             $formatter->processClones(
                 $clones,
-                $this->project,
-                $fe->getUseFile(),
-                $fe->getOutfile()
-                );
+                $fe->getOutfile(),
+                $this->project
+            );
         }
     }
 

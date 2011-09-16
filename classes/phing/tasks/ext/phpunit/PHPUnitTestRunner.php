@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PHPUnitTestRunner.php 1229 2011-07-25 19:54:19Z mrook $
+ * $Id: PHPUnitTestRunner.php 1093 2011-05-17 14:54:10Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,7 +35,7 @@ require_once 'phing/system/util/Timer.php';
  * Simple Testrunner for PHPUnit that runs all tests of a testsuite.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: PHPUnitTestRunner.php 1229 2011-07-25 19:54:19Z mrook $
+ * @version $Id: PHPUnitTestRunner.php 1093 2011-05-17 14:54:10Z mrook $
  * @package phing.tasks.ext.phpunit
  * @since 2.1.0
  */
@@ -61,16 +61,13 @@ class PHPUnitTestRunner extends PHPUnit_Runner_BaseTestRunner implements PHPUnit
     private $groups = array();
     private $excludeGroups = array();
     
-    private $processIsolation = false;
-    
     private $useCustomErrorHandler = true;
 
-    public function __construct(Project $project, $groups = array(), $excludeGroups = array(), $processIsolation = false)
+    public function __construct(Project $project, $groups = array(), $excludeGroups = array())
     {
         $this->project = $project;
         $this->groups = $groups;
         $this->excludeGroups = $excludeGroups;
-        $this->processIsolation = $processIsolation;
         $this->retCode = self::SUCCESS;
     }
     
@@ -129,7 +126,7 @@ class PHPUnitTestRunner extends PHPUnit_Runner_BaseTestRunner implements PHPUnit
             $oldErrorHandler = set_error_handler(array('PHPUnitTestRunner', 'handleError'), E_ALL | E_STRICT);
         }
         
-        $suite->run($res, false, $this->groups, $this->excludeGroups, $this->processIsolation);
+        $suite->run($res, false, $this->groups, $this->excludeGroups);
         
         foreach ($this->formatters as $formatter)
         {

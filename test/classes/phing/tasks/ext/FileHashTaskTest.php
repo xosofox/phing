@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: FileHashTaskTest.php 1252 2011-08-07 21:38:27Z mrook $
+ *  $Id: FileHashTaskTest.php 1214 2011-07-09 19:18:27Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,10 +33,10 @@ class FileHashTaskTest extends BuildFileTest {
     }
 
     public function testMD5() { 
-        $this->expectLog("testMD5", "c9dcdf095de0ef3d2e3f71cb4dc7ee11");
+        $this->expectLog("testMD5", "cdcef5d6e293a6dc3a4548a9343ac170");
     }
 
     public function testSHA1() { 
-        $this->expectLog("testSHA1", "dadd0aafb79d9fb8299a928efb23c112874bbda3");
+        $this->expectLog("testSHA1", "6b7a8d1bc7c9d114dd4d6cc5426b7395890a290e");
     }
 }

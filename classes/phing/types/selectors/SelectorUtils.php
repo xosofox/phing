@@ -1,7 +1,7 @@
 <?php
 
 /*
- * $Id: SelectorUtils.php 1254 2011-08-08 10:59:07Z mrook $
+ * $Id: SelectorUtils.php 1044 2011-03-01 21:39:59Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -132,7 +132,7 @@ class SelectorUtils {
         $dirSep = preg_quote(DIRECTORY_SEPARATOR, '/');
         $patternReplacements = array(
             $dirSep.'\*\*'.$dirSep => $dirSep.'.*('.$dirSep.')?',
-            $dirSep.'\*\*' => '(' . $dirSep .')?.*',
+            $dirSep.'\*\*' => $dirSep.'.*',
             '\*\*'.$dirSep => '.*',
             '\*\*' => '.*',
             '\*' => '[^'.$dirSep.']*',

@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PhingFile.php 1260 2011-08-08 14:40:24Z mrook $
+ *  $Id: PhingFile.php 1110 2011-05-23 16:00:43Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -25,7 +25,7 @@ include_once 'phing/system/lang/NullPointerException.php';
 /**
  * An abstract representation of file and directory pathnames.
  *
- * @version   $Revision: 1260 $
+ * @version   $Revision: 1110 $
  * @package   phing.system.io
  */
 class PhingFile {
@@ -420,7 +420,7 @@ class PhingFile {
         $fs = FileSystem::getFileSystem();
 
         if ($fs->checkAccess($this)) {
-            return (boolean) @is_link($this->getAbsolutePath()) || @is_readable($this->getAbsolutePath());
+            return (boolean) @is_readable($this->getAbsolutePath());
         }
         return false;
     }

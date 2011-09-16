@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: ForeachTask.php 1243 2011-07-29 21:20:53Z mrook $
+ *  $Id: ForeachTask.php 1096 2011-05-17 17:08:31Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -44,7 +44,7 @@ include_once 'phing/tasks/system/PhingTask.php';
  *
  * @author    Jason Hines <jason@greenhell.com>
  * @author    Hans Lellelid <hans@xmpl.org>
- * @version   $Revision: 1243 $
+ * @version   $Revision: 1096 $
  * @package   phing.tasks.system
  */
 class ForeachTask extends Task {
@@ -108,8 +108,8 @@ class ForeachTask extends Task {
      * @return void
      */   
     function main() {
-        if ($this->list === null && count($this->filesets) == 0 && count($this->filelists) == 0) {
-            throw new BuildException("Need either list, nested fileset or nested filelist to iterate through");
+        if ($this->list === null && count($this->filesets) == 0) {
+            throw new BuildException("Need either list or nested fileset to iterate through");
         }
         if ($this->param === null) {
             throw new BuildException("You must supply a property name to set on each iteration in param");

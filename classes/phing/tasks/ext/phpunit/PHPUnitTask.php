@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PHPUnitTask.php 1229 2011-07-25 19:54:19Z mrook $
+ * $Id: PHPUnitTask.php 1115 2011-05-24 22:22:26Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@ require_once 'phing/util/LogWriter.php';
  * Runs PHPUnit tests.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: PHPUnitTask.php 1229 2011-07-25 19:54:19Z mrook $
+ * @version $Id: PHPUnitTask.php 1115 2011-05-24 22:22:26Z mrook $
  * @package phing.tasks.ext.phpunit
  * @see BatchTest
  * @since 2.1.0
@@ -52,7 +52,6 @@ class PHPUnitTask extends Task
     private $codecoverage = false;
     private $groups = array();
     private $excludeGroups = array();
-    private $processIsolation = false;
     private $usecustomerrorhandler = true;
 
     /**
@@ -190,11 +189,6 @@ class PHPUnitTask extends Task
         $this->codecoverage = $codecoverage;
     }
 
-    public function setProcessIsolation($processIsolation)
-    {
-        $this->processIsolation = $processIsolation;
-    }
-
     public function setUseCustomErrorHandler($usecustomerrorhandler)
     {
         $this->usecustomerrorhandler = $usecustomerrorhandler;
@@ -301,7 +295,7 @@ class PHPUnitTask extends Task
      */
     protected function execute($suite)
     {
-        $runner = new PHPUnitTestRunner($this->project, $this->groups, $this->excludeGroups, $this->processIsolation);
+        $runner = new PHPUnitTestRunner($this->project, $this->groups, $this->excludeGroups);
         
         $runner->setCodecoverage($this->codecoverage);
         $runner->setUseCustomErrorHandler($this->usecustomerrorhandler);

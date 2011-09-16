@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: JslLintTask.php 1273 2011-08-17 09:49:54Z mrook $
+ *  $Id: JslLintTask.php 1176 2011-06-21 15:09:52Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -28,7 +28,7 @@ require_once 'phing/util/DataStore.php';
  * This class is based on Knut Urdalen's PhpLintTask.
  *
  * @author Stefan Priebsch <stefan.priebsch@e-novative.de>
- * @version $Id: JslLintTask.php 1273 2011-08-17 09:49:54Z mrook $
+ * @version $Id: JslLintTask.php 1176 2011-06-21 15:09:52Z mrook $
  * @package phing.tasks.ext
  */
 class JslLintTask extends Task
@@ -201,11 +201,11 @@ class JslLintTask extends Task
                 $summary = $messages[sizeof($messages) - 1];
 
                 preg_match('/(\d+)\serror/', $summary, $matches);
-                $errorCount = (count($matches) > 1 ? $matches[1] : 0);
+                $errorCount = $matches[1];
 
                 preg_match('/(\d+)\swarning/', $summary, $matches);
-                $warningCount = (count($matches) > 1 ? $matches[1] : 0);
-                
+                $warningCount = $matches[1];
+
                 $errors = array();
                 $warnings = array();
                 if ($errorCount > 0 || $warningCount > 0) {

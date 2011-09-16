@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: AvailableTask.php 1225 2011-07-15 19:40:29Z mrook $
+ *  $Id: AvailableTask.php 912 2010-10-12 01:08:31Z victor $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@ include_once 'phing/tasks/system/condition/ConditionBase.php';
  *
  *  @author    Andreas Aderhold <andi@binarycloud.com>
  *  @copyright 2001,2002 THYRELL. All rights reserved
- *  @version   $Revision: 1225 $
+ *  @version   $Revision: 912 $
  *  @package   phing.tasks.system
  */
 class AvailableTask extends Task {
@@ -64,31 +64,6 @@ class AvailableTask extends Task {
 
     function setType($type) {
         $this->type = (string) strtolower($type);
-    }
-    
-    /**
-     * Set the path to use when looking for a file.
-     * 
-     * @param Path $filepath a Path instance containing the search path for files.
-     */
-    public function setFilepath(Path $filepath) {
-        if ($this->filepath === null) {
-            $this->filepath = $filepath;
-        } else {
-            $this->filepath->append($filepath);
-        }
-    }
-
-    /**
-     * Creates a path to be configured
-     * 
-     * @return Path
-     */ 
-    public function createFilepath() {
-        if ($this->filepath === null) {
-            $this->filepath = new Path($this->project);
-        }
-        return $this->filepath->createPath();
     }
 
     function main() {
@@ -127,7 +102,7 @@ class AvailableTask extends Task {
         if ($this->filepath === null) {
             return $this->_checkFile1($this->file);
         } else {
-            $paths = $this->filepath->listPaths();
+            $paths = $this->filepath->listDir();
             for($i=0,$pcnt=count($paths); $i < $pcnt; $i++) {
                 $this->log("Searching " . $paths[$i], Project::MSG_VERBOSE);
                 $tmp = new PhingFile($paths[$i], $this->file->getName());

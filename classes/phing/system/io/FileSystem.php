@@ -1,7 +1,7 @@
 <?php
 
 /* 
- *  $Id: FileSystem.php 1260 2011-08-08 14:40:24Z mrook $
+ *  $Id: FileSystem.php 1127 2011-05-31 20:50:27Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -35,7 +35,7 @@
  *    
  * @author Charlie Killian <charlie@tizac.com>
  * @author Hans Lellelid <hans@xmpl.org>
- * @version $Revision: 1260 $
+ * @version $Revision: 1127 $
  * @package phing.system.io
  */
 abstract class FileSystem {    
@@ -258,25 +258,14 @@ abstract class FileSystem {
 
         @clearstatcache();
         $strPath = (string) $f->getPath();
-        
-        if (@is_link($strPath)) {
-            $stats = @lstat($strPath);
-            
-            if (!isset($stats['mtime'])) {
-                $mtime = false;
-            } else {
-                $mtime = $stats['mtime'];
-            } 
-        } else {
-            $mtime = @filemtime($strPath);
-        }
-            
+        $mtime = @filemtime($strPath);
         if (false === $mtime) {
-            $msg = "FileSystem::getLastModifiedTime() FAILED. Can not get modified time of $strPath. $php_errormsg";
+            // FAILED. Log and return err.
+            $msg = "FileSystem::Filemtime() FAILED. Can not get modified time of $strPath. $php_errormsg";
             throw new IOException($msg);
+        } else {
+            return (int) $mtime;
         }
-            
-        return (int) $mtime;
     }
 
     /**
@@ -461,7 +450,7 @@ abstract class FileSystem {
      * @param PhingFile $f1
      * @param PhingFile $f2
      */
-    function compare(PhingFile $f1, PhingFile $f2) {
+    function compare($f1, $f2) {
         throw new IOException("compare() not implemented by local fs driver");
     }
 

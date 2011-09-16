@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: Phing.php 1232 2011-07-26 08:24:20Z mrook $
+ * $Id: Phing.php 1169 2011-06-20 07:47:00Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -58,7 +58,7 @@ include_once 'phing/system/util/Register.php';
  *
  * @author    Andreas Aderhold <andi@binarycloud.com>
  * @author    Hans Lellelid <hans@xmpl.org>
- * @version   $Revision: 1232 $
+ * @version   $Revision: 1169 $
  * @package   phing
  */
 class Phing {
@@ -1101,12 +1101,6 @@ class Phing {
         // data_dir is on the include_path.
         $dataDir = '@DATA-DIR@';
         if ($dataDir{0} != '@') { // if we're using PEAR then the @ DATA-DIR @ token will have been substituted.
-            if (!file_exists($dataDir)) {
-            	self::log("The PEAR data_dir setting is incorrect: {$dataDir}.", Project::MSG_ERR);
-            	self::log("Please edit using 'pear config-set data_dir ...' and re-install Phing.", Project::MSG_ERR);
-            	return null;
-            }
-            
             $testPath = $dataDir . DIRECTORY_SEPARATOR . $path;
             if (file_exists($testPath)) {
                 return $testPath;

@@ -1,6 +1,6 @@
 <?php
 /**
- *  $Id: PHPMDTask.php 1223 2011-07-15 19:27:56Z mrook $
+ *  $Id: PHPMDTask.php 755 2010-03-24 20:19:08Z bschultz $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@ require_once 'phing/Task.php';
  *
  * @package phing.tasks.ext.phpmd
  * @author  Benjamin Schultz <bschultz@proqrent.de>
- * @version $Id: PHPMDTask.php 1223 2011-07-15 19:27:56Z mrook $
+ * @version $Id: PHPMDTask.php 755 2010-03-24 20:19:08Z bschultz $
  * @since   2.4.1
  */
 class PHPMDTask extends Task
@@ -280,22 +280,18 @@ class PHPMDTask extends Task
                 }
             }
         }
-        
-        if (count($filesToParse) > 0) {
-            $inputPath = implode(',', $filesToParse);
-    
-            $this->log('Processing files...');
-    
-            $phpmd->processFiles(
-                $inputPath,
-                $this->rulesets,
-                $reportRenderers,
-                $ruleSetFactory
-            );
-    
-            $this->log('Finished processing files');
-        } else {
-            $this->log('No files to process');
-        }
+
+        $inputPath = implode(',', $filesToParse);
+
+        $this->log('Processing files...');
+
+        $phpmd->processFiles(
+            $inputPath,
+            $this->rulesets,
+            $reportRenderers,
+            $ruleSetFactory
+        );
+
+        $this->log('Finished processing files');
     }
 }

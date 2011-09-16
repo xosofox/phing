@@ -1,7 +1,7 @@
 <?php
 
 /*
- *  $Id: PhpUnit34Test.php 1270 2011-08-15 15:28:41Z mrook $
+ *  $Id: PhpUnit34Test.php 655 2009-12-14 12:53:15Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,6 @@ require_once 'phing/BuildFileTest.php';
  * @package phing.regression
  */
 class PhpUnit34Test extends BuildFileTest { 
-    protected $backupGlobals = FALSE;
         
     public function setUp() { 
         $this->configureProject(PHING_TEST_BASE . "/etc/regression/363/build.xml");

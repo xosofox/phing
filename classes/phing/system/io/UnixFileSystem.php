@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: UnixFileSystem.php 1237 2011-07-28 09:25:52Z mrook $
+ *  $Id: UnixFileSystem.php 984 2010-11-11 10:52:50Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -39,7 +39,7 @@ include_once 'phing/system/io/FileSystem.php';
  *  - Error handling reduced to min, error are handled by PhingFile mainly
  *
  * @author    Andreas Aderhold, andi@binarycloud.com
- * @version   $Revision: 1237 $
+ * @version   $Revision: 984 $
  * @package   phing.system.io
  */
 class UnixFileSystem extends FileSystem {
@@ -214,10 +214,14 @@ class UnixFileSystem extends FileSystem {
     /**
      * compares file paths lexicographically
      */
-    function compare(PhingFile $f1, PhingFile $f2) {
-        $f1Path = $f1->getPath();
-        $f2Path = $f2->getPath();
-        return strcmp((string) $f1Path, (string) $f2Path);
+    function compare($f1, $f2) {
+        if ( ($f1 instanceof PhingFile) && ($f2 instanceof PhingFile) ) {
+            $f1Path = $f1->getPath();
+            $f2Path = $f2->getPath();
+            return strcmp((string) $f1Path, (string) $f2Path);
+        } else {
+            throw new Exception("IllegalArgumentType: Argument is not PhingFile");
+        }
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: CoverageReportTask.php 1289 2011-08-19 07:55:37Z mrook $
+ * $Id: CoverageReportTask.php 1116 2011-05-26 15:16:56Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,7 +30,7 @@ require_once 'phing/tasks/ext/coverage/CoverageReportTransformer.php';
  * Transforms information in a code coverage database to XML
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: CoverageReportTask.php 1289 2011-08-19 07:55:37Z mrook $
+ * @version $Id: CoverageReportTask.php 1116 2011-05-26 15:16:56Z mrook $
  * @package phing.tasks.ext.coverage
  * @since 2.1.0
  */
@@ -312,6 +312,11 @@ class CoverageReportTask extends Task
         return $sourceElement;
     }
     
+    protected function filterCovered($var)
+    {
+        return ($var >= 0);
+    }
+
     /**
      * Transforms the coverage information
      *
@@ -361,9 +366,6 @@ class CoverageReportTask extends Task
                 {
                     unset($coverageInformation[$classStartLine]);
                 }
-                
-                // Remove out-of-bounds info
-                unset($coverageInformation[0]);
                 
                 reset($coverageInformation);                
                 
@@ -424,16 +426,9 @@ class CoverageReportTask extends Task
                     $methodcount++;
                 }
 
-                $statementcount = count(array_filter(
-                    $coverageInformation, 
-                    create_function('$var', 'return ($var != -2);')
-                ));
-                
-                $statementscovered = count(array_filter(
-                    $coverageInformation, 
-                    create_function('$var', 'return ($var >= 0);')
-                ));
-                
+                $statementcount = count($coverageInformation);
+                $statementscovered = count(array_filter($coverageInformation, array($this, 'filterCovered')));
+
                 $classElement->appendChild($this->transformSourceFile($filename, $coverageInformation, $classStartLine));
 
                 $classElement->setAttribute('methodcount', $methodcount);

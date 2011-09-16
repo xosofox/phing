@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: DbmsSyntaxFactory.php 1263 2011-08-08 20:25:22Z mrook $
+ *  $Id: DbmsSyntaxFactory.php 1019 2010-12-22 09:22:55Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@ require_once 'phing/tasks/ext/dbdeploy/DbmsSyntax.php';
  *  Factory for generating dbms-specific syntax-generating objects
  *
  *  @author   Luke Crouch at SourceForge (http://sourceforge.net)
- *  @version  $Revision: 1263 $
+ *  @version  $Revision: 1019 $
  *  @package  phing.tasks.ext.dbdeploy
  */
 
@@ -48,16 +48,12 @@ class DbmsSyntaxFactory
             case('mysql'):
                 require_once 'phing/tasks/ext/dbdeploy/DbmsSyntaxMysql.php';
                 return new DbmsSyntaxMysql();
-            case 'odbc':
             case('mssql'):
                 require_once 'phing/tasks/ext/dbdeploy/DbmsSyntaxMsSql.php';
                 return new DbmsSyntaxMsSql();
             case('pgsql'):
                 require_once 'phing/tasks/ext/dbdeploy/DbmsSyntaxPgSQL.php';
                 return new DbmsSyntaxPgSQL();
-            case 'oci':
-                require_once 'phing/tasks/ext/dbdeploy/DbmsSyntaxOracle.php';
-                return new DbmsSyntaxOracle();
             default:
                 throw new Exception($this->dbms . ' is not supported by dbdeploy task.');
         }

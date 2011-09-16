@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: JsMinTask.php 1231 2011-07-25 20:11:53Z mrook $
+ *  $Id: JsMinTask.php 526 2009-08-11 12:11:17Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@ require_once 'phing/tasks/ext/jsmin/JsMin.php';
  * is bundled with Phing so no additional install of JsMin is required.
  *
  * @author Frank Kleine <mikey@stubbles.net>
- * @version $Id: JsMinTask.php 1231 2011-07-25 20:11:53Z mrook $
+ * @version $Id: JsMinTask.php 526 2009-08-11 12:11:17Z mrook $
  * @package phing.tasks.ext
  * @since 2.3.0
  */
@@ -48,14 +48,6 @@ class JsMinTask extends Task
      * @var boolean
      */
     protected $failonerror = false;
-    
-    /**
-     * Define if the target should use or not a suffix -min
-     *
-     * @var boolean
-     */
-    protected $suffix   = '-min';
-    
     /**
      * directory to put minified javascript files into
      *
@@ -82,16 +74,6 @@ class JsMinTask extends Task
         $this->failonerror = $value;
     }
 
-    /**
-     * Define if the task should or not use a suffix (-min is the default)
-     *
-     * @param string $value
-     */
-    public function setSuffix($value)
-    {
-        $this->suffix = $value;
-    }
-    
     /**
      * sets the directory where minified javascript files should be put inot
      *
@@ -122,7 +104,7 @@ class JsMinTask extends Task
                 foreach ($files as $file) {
                     $this->log('Minifying file ' . $file);
                     try {
-                        $target = $this->targetDir . '/' . str_replace($fullPath, '', str_replace('.js', $this->suffix . '.js', $file));
+                        $target = $this->targetDir . '/' . str_replace($fullPath, '', str_replace('.js', '-min.js', $file));
                         if (file_exists(dirname($target)) === false) {
                             mkdir(dirname($target), 0700, true);
                         }

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: DefaultPHPCPDResultFormatter.php 1281 2011-08-18 19:23:20Z mrook $
+ * $Id: DefaultPHPCPDResultFormatter.php 728 2010-02-13 23:21:51Z bschultz $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@ require_once 'phing/tasks/ext/phpcpd/formatter/PHPCPDResultFormatter.php';
  *
  * @package phing.tasks.ext.phpcpd.formatter
  * @author  Benjamin Schultz <bschultz@proqrent.de>
- * @version $Id: DefaultPHPCPDResultFormatter.php 1281 2011-08-18 19:23:20Z mrook $
+ * @version $Id: DefaultPHPCPDResultFormatter.php 728 2010-02-13 23:21:51Z bschultz $
  */
 class DefaultPHPCPDResultFormatter extends PHPCPDResultFormatter
 {
@@ -36,11 +36,8 @@ class DefaultPHPCPDResultFormatter extends PHPCPDResultFormatter
      * Processes a list of clones.
      *
      * @param PHPCPD_CloneMap $clones
-     * @param Project $project
-     * @param boolean $useFile
-     * @param PhingFile|null $outfile
      */
-    public function processClones(PHPCPD_CloneMap $clones, Project $project, $useFile = false, $outFile = null)
+    public function processClones(PHPCPD_CloneMap $clones, PhingFile $outfile, Project $project)
     {
         $logger = new PHPCPD_TextUI_ResultPrinter();
         // default format goes to logs, no buffering
@@ -49,10 +46,11 @@ class DefaultPHPCPDResultFormatter extends PHPCPDResultFormatter
         $output = ob_get_contents();
         ob_end_clean();
 
-        if (!$useFile || empty($outFile)) {
+        if (!$this->usefile) {
             echo $output;
         } else {
-            file_put_contents($outFile->getPath(), $output);
+            $outputFile = $outfile->getPath();
+            file_put_contents($outputFile, $output);
         }
     }
 }

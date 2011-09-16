@@ -1,7 +1,7 @@
 <?php
 
 /*
- * $Id: TaskdefTask.php 1224 2011-07-15 19:39:47Z mrook $
+ * $Id: TaskdefTask.php 1014 2010-12-17 20:51:26Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -43,7 +43,7 @@ include_once 'phing/system/io/PhingFile.php';
  *      (right now these are just too simple to really justify creating an abstract class)
  * 
  * @author    Hans Lellelid <hans@xmpl.org>
- * @version   $Revision: 1224 $
+ * @version   $Revision: 1014 $
  * @package   phing.tasks.system
  */
 class TaskdefTask extends Task {
@@ -79,7 +79,7 @@ class TaskdefTask extends Task {
     /**
      * Set the classpath to be used when searching for component being defined
      * 
-     * @param Path $classpath A Path object containing the classpath.
+     * @param Path $classpath An Path object containing the classpath.
      */
     public function setClasspath(Path $classpath) {
         if ($this->classpath === null) {
@@ -91,8 +91,6 @@ class TaskdefTask extends Task {
 
     /**
      * Create the classpath to be used when searching for component being defined
-     * 
-     * @return Path
      */ 
     public function createClasspath() {
         if ($this->classpath === null) {

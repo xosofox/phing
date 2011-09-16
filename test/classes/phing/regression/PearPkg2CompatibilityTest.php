@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: PearPkg2CompatibilityTest.php 1270 2011-08-15 15:28:41Z mrook $
+ *  $Id: PearPkg2CompatibilityTest.php 862 2010-09-15 02:17:59Z victor $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,6 @@ require_once 'phing/BuildFileTest.php';
  */
 class PearPkg2CompatibilityTest extends BuildFileTest { 
     private $savedErrorLevel;
-    protected $backupGlobals = FALSE;
         
     public function setUp() { 
         $this->savedErrorLevel = error_reporting();

@@ -1,6 +1,6 @@
 <?php
 /**
- * $Id: PHPUnitReportTask.php 1272 2011-08-15 15:30:15Z mrook $
+ * $Id: PHPUnitReportTask.php 1123 2011-05-31 13:51:42Z mrook $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -32,7 +32,7 @@ require_once 'phing/util/ExtendedFileStream.php';
  * different packages or testcases since it is a Javadoc like report.
  *
  * @author Michiel Rook <michiel.rook@gmail.com>
- * @version $Id: PHPUnitReportTask.php 1272 2011-08-15 15:30:15Z mrook $
+ * @version $Id: PHPUnitReportTask.php 1123 2011-05-31 13:51:42Z mrook $
  * @package phing.tasks.ext.phpunit
  * @since 2.1.0
  */
@@ -56,7 +56,7 @@ class PHPUnitReportTask extends Task
     /**
      * Set the filename of the XML results file to use.
      */
-    public function setInFile(PhingFile $inFile)
+    public function setInFile($inFile)
     {
         $this->inFile = $inFile;
     }
@@ -81,7 +81,7 @@ class PHPUnitReportTask extends Task
      * Set the directory where the files resulting from the 
      * transformation should be written to.
      */
-    public function setToDir(PhingFile $toDir)
+    public function setToDir($toDir)
     {
         $this->toDir = $toDir;
     }
@@ -138,7 +138,9 @@ class PHPUnitReportTask extends Task
      */
     protected function transform(DOMDocument $document)
     {
-        if (!$this->toDir->exists())
+        $dir = new PhingFile($this->toDir);
+        
+        if (!$dir->exists())
         {
             throw new BuildException("Directory '" . $this->toDir . "' does not exist");
         }
@@ -164,7 +166,8 @@ class PHPUnitReportTask extends Task
 
             // no output for the framed report
             // it's all done by extension...
-            $proc->setParameter('', 'output.dir', urlencode((string) $this->toDir));
+            $dir = new PhingFile($this->toDir);
+            $proc->setParameter('', 'output.dir', urlencode((string) $dir));
             $proc->transformToXML($document);
             
             ExtendedFileStream::unregisterStream();
@@ -220,7 +223,7 @@ class PHPUnitReportTask extends Task
     public function main()
     {
         $testSuitesDoc = new DOMDocument();
-        $testSuitesDoc->load((string) $this->inFile);
+        $testSuitesDoc->load($this->inFile);
         
         $this->fixDocument($testSuitesDoc);
         
