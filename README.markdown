@@ -24,7 +24,7 @@ In "propel", there are branches 1.1 to 1.6, so you need to/can select your desir
 Which version is "phing"?
 -------------------------
 
-The phing repo is currently using the version 2.3.3 (http://svn.phing.info/tags/2.3.3/) due to compatibility reasons with the PropelBundle
+The phing repo is currently using the version 2.4.7.1 (http://svn.phing.info/tags/2.4.7.1/)
 
 Why at all?
 -----------
@@ -43,4 +43,3 @@ Any you are including it as a git submodule.
 Since the bundle depends on phing and propel, you might want to include
 
     > git submodule add https://github.com/Xosofox/phing vendor/phing
-    > git submodule add https://github.com/Xosofox/propel1.6 vendor/propel
